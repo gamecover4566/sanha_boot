@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class hw1Controller {
+public class HomeworkController {
 	@GetMapping("/add")
 	public String add(Model model, @RequestParam("val1") int value1, @RequestParam("val2") int value2) {
 		int result = value1 + value2;
