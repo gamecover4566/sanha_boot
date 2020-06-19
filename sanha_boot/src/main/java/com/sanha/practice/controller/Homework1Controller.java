@@ -3,12 +3,13 @@ package com.sanha.practice.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class HomeworkController {
+public class Homework1Controller {
 	@GetMapping("/add")
-	public String add(Model model, @RequestParam("val1") int value1, @RequestParam("val2") int value2) {
+	@ResponseBody
+	public String add(Model model, int value1, int value2) {
 		int result = value1 + value2;
 		
 		model.addAttribute("val1", value1);
@@ -16,10 +17,11 @@ public class HomeworkController {
 		model.addAttribute("result", result);
 		
 		return "add";
-	}
+	}	
 	
 	@GetMapping("/sub")
-	public String sub(Model model, @RequestParam("val1") int value1, @RequestParam("val2") int value2) {
+	@ResponseBody
+	public String sub(Model model,int value1, int value2) {
 		int result = value1 - value2;
 		
 		model.addAttribute("val1", value1);
@@ -28,9 +30,10 @@ public class HomeworkController {
 		
 		return "sub";
 	}
-	
+		
 	@GetMapping("/mul")
-	public String mul(Model model, @RequestParam("val1") int value1, @RequestParam("val2") int value2) {
+	@ResponseBody
+	public String mul(Model model, int value1, int value2) {
 		int result = value1 * value2;
 		
 		model.addAttribute("val1", value1);
@@ -41,7 +44,8 @@ public class HomeworkController {
 	}
 	
 	@GetMapping("/div")
-	public String div(Model model, @RequestParam("val1") int value1, @RequestParam("val2") int value2) {
+	@ResponseBody
+	public String div(Model model, int value1, int value2) {
 		int result = value1 / value2;
 		
 		model.addAttribute("val1", value1);
