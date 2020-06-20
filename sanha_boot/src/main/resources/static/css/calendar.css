@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+.left {
+	width: 50%;
+	float: left;	
+}
+
+.right {
+	width: 50%;
+	float: right;	
+}
+
+.dot {
+	color: red;
+}
+
+.txtbox {
+	width: 30%;
+}
+
+.btn {
+	width: 70px;
+}
+
+.datearea {
+	padding: 15px;
+}
+
+.displaydate {
+	font-size: 20px;
+	margin: 20px;
+}
+
+.maincalendar {
+	width: 90%;
+	margin: auto;
+}
+
+.table {
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: center;
+}
+
+.table td {
+	border-style: solid;
+	border-width: 1px;
+}
+
+.table th {
+	width: 9%;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.subcalendar {
+	padding-top: 20px;
+	width: 90%;
+	margin: auto;
+}
+
+.table .table-day {
+	height: 50px;
+	background-color: #dae8fc;
+	vertical-align: center;
+}
+
+.table .table-date {
+	height: 50px;
+	vertical-align: center;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	vertical-align: center;
+}
+
+.table2 td {
+	border-style: solid;
+	border-width: 1px;
+}
+
+.table2 th {
+	width: 9%;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.table2 .table2-title {
+	height: 30px;
+	background-color: #dae8fc;
+	vertical-align: center;
+}
+
+.table2 .table2-content {
+	height: 30px;
+	vertical-align: center;
+}
+
+.selectdate {
+	font-size: 20px;
+}

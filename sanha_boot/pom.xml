@@ -40,6 +40,13 @@
 			</exclusions>
 		</dependency>
 		
+		<!-- JSP -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- jstl 라이브러리 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
