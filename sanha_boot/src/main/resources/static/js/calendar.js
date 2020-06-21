@@ -27,15 +27,20 @@ $(document).ready(function() {
 	$("#table1").click(function(event) {
 		let emptyCheck = $(event.target).text();
 		
-		if(emptyCheck != "" || emptyCheck != null) {
-			console.log(month + "//" + emptyCheck);
-			$("#selectedyear").text(year);
-			$("#selectedmonth").text(month);
-			$("#selecteddate").text(emptyCheck);
-		}
-		else {
-			event.stopPropagation();
-			event.preventDefault();
+		if(emptyCheck != "" && emptyCheck != null) {
+			console.log(emptyCheck);
+			if(emptyCheck.length >= 3){
+				event.preventDefault();
+			}
+			else {
+				$("#selectedyear").text(year);
+				$("#selectedmonth").text(month);
+				$("#selecteddate").text(emptyCheck);
+				
+				let week = ['일', '월', '화', '수', '목', '금', '토'];
+				let date = week[new Date(year + "/" + month + "/" + emptyCheck).getDay()];
+				$("#selectedday").text(date);
+			}
 		}
 	});
 });

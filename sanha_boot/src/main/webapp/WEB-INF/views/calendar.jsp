@@ -51,10 +51,10 @@
 	
 	<div class="selectdate" align="center" style="margin-top: 30px">
 		<span>선택된 일자 </span>
-		<span id="selectedyear"/><span> 년</span>
-		<span id="selectedmonth"/><span> 월</span>
-		<span id="selecteddate"/><span> 일</span>
-		<span id="selectedday"/><span> (요일)</span><br>
+		<span id="selectedyear"></span><span> 년</span>
+		<span id="selectedmonth"></span><span> 월</span>
+		<span id="selecteddate"></span><span> 일</span>
+		<span id="selectedday"></span><span>요일</span><br>
 		<input type="button" class="btn" value="적용" onclick="send()" style="margin-top: 30px">
 	</div>
 </div>
