@@ -22,69 +22,25 @@
 	</div>
 	
 	<div class="displaydate" align="center">
-		<span id="displayYear"/>년 <span id="displayMonth"/>
+		<span id="displayYear"></span>
+		<span>년 </span>
+		<span id="displayMonth"></span>
 	</div>
 	
 	<div class="maincalendar">
 		<table class="table" id="table1" align="center">
 			<thead>
 				<tr>
-					<th class="table-day">Sun</th>
-					<th class="table-day">Mon</th>
-					<th class="table-day">Tue</th>
-					<th class="table-day">Wed</th>
-					<th class="table-day">Thu</th>
-					<th class="table-day">Fri</th>
-					<th class="table-day">Sat</th>
+					<th>Sun</th>
+					<th>Mon</th>
+					<th>Tue</th>
+					<th>Wed</th>
+					<th>Thu</th>
+					<th>Fri</th>
+					<th>Sat</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-				</tr>
-				<tr>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-				</tr>
-				<tr>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-				</tr>
-				<tr>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-				</tr>
-				<tr>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-					<td class="table-date"></td>
-				</tr>
-			</tbody>
+			<tbody id="table-date"></tbody>
 		</table>
 	</div>
 	
@@ -95,11 +51,11 @@
 	
 	<div class="selectdate" align="center" style="margin-top: 30px">
 		<span>선택된 일자 </span>
-		<span id="selectedyear"/>&nbsp;년&nbsp;
-		<span id="selectedmonth"/>&nbsp;월&nbsp;
-		<span id="selecteddate"/>&nbsp;일&nbsp;
-		<span id="selectedday"/>&nbsp;(요일)<br>
-		<input type="button" class="btn" value="적용" onclick="send()">
+		<span id="selectedyear"/><span> 년</span>
+		<span id="selectedmonth"/><span> 월</span>
+		<span id="selecteddate"/><span> 일</span>
+		<span id="selectedday"/><span> (요일)</span><br>
+		<input type="button" class="btn" value="적용" onclick="send()" style="margin-top: 30px">
 	</div>
 </div>
 <div class="right">
@@ -107,18 +63,12 @@
 		<table class="table2" id="table2" align="center">
 			<thead>
 				<tr>
-					<th class="table2-title">일자</th>
-					<th class="table2-title">요일</th>
-					<th class="table2-title">국경일</th>
+					<th>일자</th>
+					<th>요일</th>
+					<th>국경일</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td class="table2-content"></td>				
-					<td class="table2-content"></td>				
-					<td class="table2-content"></td>				
-				</tr>
-			</tbody>
+			<tbody id="table-selected"></tbody>
 		</table>
 	</div>
 </div>

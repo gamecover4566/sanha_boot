@@ -39,18 +39,21 @@
 .table {
 	border-collapse: collapse;
 	text-align: center;
-	vertical-align: center;
 }
 
 .table td {
 	border-style: solid;
 	border-width: 1px;
+	vertical-align: middle;
 }
 
 .table th {
 	width: 9%;
 	border-style: solid;
 	border-width: 1px;
+	height: 50px;
+	background-color: #dae8fc;
+	vertical-align: middle;
 }
 
 .subcalendar {
@@ -59,15 +62,8 @@
 	margin: auto;
 }
 
-.table .table-day {
-	height: 50px;
-	background-color: #dae8fc;
-	vertical-align: center;
-}
-
 .table .table-date {
 	height: 50px;
-	vertical-align: center;
 }
 
 .table2 {
@@ -85,16 +81,8 @@
 	width: 9%;
 	border-style: solid;
 	border-width: 1px;
-}
-
-.table2 .table2-title {
 	height: 30px;
 	background-color: #dae8fc;
-	vertical-align: center;
-}
-
-.table2 .table2-content {
-	height: 30px;
 	vertical-align: center;
 }
 
