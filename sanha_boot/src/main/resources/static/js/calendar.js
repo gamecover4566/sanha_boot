@@ -5,6 +5,7 @@ let firstDay = null;
 let lastDay = null;
 let tableDate = null;
 let tableSelectd = null;
+let tableCount = 0;
 
 $(document).ready(function() {
 	drawCalendar();
@@ -28,22 +29,32 @@ $(document).ready(function() {
 		let emptyCheck = $(event.target).text();
 		
 		if(emptyCheck != "" && emptyCheck != null) {
-			console.log(emptyCheck);
 			if(emptyCheck.length >= 3){
 				event.preventDefault();
 			}
 			else {
+				let week = ['일', '월', '화', '수', '목', '금', '토'];
+				let date = week[new Date(year + "/" + month + "/" + emptyCheck).getDay()];
+
 				$("#selectedyear").text(year);
 				$("#selectedmonth").text(month);
 				$("#selecteddate").text(emptyCheck);
 				
-				let week = ['일', '월', '화', '수', '목', '금', '토'];
-				let date = week[new Date(year + "/" + month + "/" + emptyCheck).getDay()];
+				removeSelected();
+				$(event.target).css("background-color", "Turquoise");
 				$("#selectedday").text(date);
 			}
 		}
 	});
+	
+	drawTable();
 });
+
+function removeSelected() {
+	for(let i = 0; i < 42; i++) {
+		tableDate.eq(i).css("background-color", "White");;
+	}
+}
 
 function drawCalendar() {
 	let calendarHTML = "";
@@ -58,6 +69,26 @@ function drawCalendar() {
 		calendarHTML += "</tr>";
 	}
 	$("#table-date").html(calendarHTML);
+}
+
+function drawTable() {
+	let tableHTML = "";
+
+	tableHTML += "<tr>";
+	for (let i = 0; i < 3; i++) {
+		tableHTML += "<td>";
+		tableHTML += '<div class="table-selected"></div>';
+		tableHTML += "</td>";
+	}
+	tableHTML += "</tr>";
+	
+	$("#table-selected").append(tableHTML);
+}
+
+function removeTable() {
+	$("#table2 > tbody:last").empty();
+	drawTable();
+	tableCount = 0;
 }
 
 function inquiry() {
@@ -98,15 +129,16 @@ function inquiry() {
 		value2.focus();
 	}
 	
-	initDate();
-	
+	refreshDate();
+	removeTable();
 }
 
-function initDate() {
+function refreshDate() {
 	firstDay = new Date(year, month - 1, 1);
 	lastDay = new Date(year, month, 0);
 	tableDate = $("td div.table-date");
 	
+	removeSelected();
 	drawDate();
 }
 
@@ -120,57 +152,43 @@ function drawDate() {
 	let day2 = String(value2.value).substring(6, 8);
 	let count = 0;
 	
-	
-	$("#displayYear").val(year);
 	$("#displayYear").text(year);
 	
 	switch (month) {
 	case 1:
-		$("#displayMonth").val('01');		
 		$("#displayMonth").text("Jan");		
 		break;
 	case 2:
-		$("#displayMonth").val('02');		
 		$("#displayMonth").text("Feb");		
 		break;
 	case 3:
-		$("#displayMonth").val('03');		
 		$("#displayMonth").text("Mar");		
 		break;
 	case 4:
-		$("#displayMonth").val('04');		
 		$("#displayMonth").text("Apr");		
 		break;
 	case 5:
-		$("#displayMonth").val('08');		
 		$("#displayMonth").text("May");		
 		break;
 	case 6:
-		$("#displayMonth").val('06');		
 		$("#displayMonth").text("Jun");		
 		break;
 	case 7:
-		$("#displayMonth").val('07');		
 		$("#displayMonth").text("Jul");		
 		break;
 	case 8:
-		$("#displayMonth").val('08');		
 		$("#displayMonth").text("Aug");		
 		break;
 	case 9:
-		$("#displayMonth").val('09');		
 		$("#displayMonth").text("Sep");		
 		break;
 	case 10:
-		$("#displayMonth").val('10');		
 		$("#displayMonth").text("Oct");		
 		break;
 	case 11:
-		$("#displayMonth").val('11');		
 		$("#displayMonth").text("Nov");		
 		break;
 	case 12:
-		$("#displayMonth").val('12');		
 		$("#displayMonth").text("Dec");		
 		break;
 	default:
@@ -185,7 +203,21 @@ function drawDate() {
 		let checkDay = ++count;
 		
 		if(year == year2) {
-			if(month < month2) {
+			if((month == month1) && (month < month2)) {
+				if(checkDay < day1) {
+				}
+				else {
+					tableDate.eq(i).text(checkDay);	
+				}
+			}
+			else if((month == month1) && (month == month2)) {
+				if(checkDay < day1) {
+				}
+				else if(checkDay <= day2){
+					tableDate.eq(i).text(checkDay);	
+				}
+			}
+			else if(month < month2) {
 				tableDate.eq(i).text(checkDay);	
 			}
 			else if(month == month2) {
@@ -222,7 +254,7 @@ function prev() {
 			month = 12;
 			year--;
 		}
-		initDate();
+		refreshDate();
 	}
 	else {
 		if(month1 == month) {
@@ -234,7 +266,7 @@ function prev() {
 				month = 12;
 				year--;
 			}
-			initDate();
+			refreshDate();
 		}
 	}
 	
@@ -251,7 +283,7 @@ function next() {
 			month = 1;
 			year++;
 		}
-		initDate();
+		refreshDate();
 	}
 	else if(year == year2) {
 		if(month2 == month) {
@@ -263,8 +295,66 @@ function next() {
 				month = 1;
 				year++;
 			}
-			initDate();
+			refreshDate();
 		}
 	}
 }
 
+function sendDate() {
+	let sendYear = $('#selectedyear').text();
+	let sendMonth = $('#selectedmonth').text();
+	let sendDate = $('#selecteddate').text();
+	let sendDay = $('#selectedday').text();
+	let tableSelected = $("td div.table-selected");
+	
+	if(sendMonth.length < 2) {
+		sendMonth = "0" + sendMonth;
+	}
+
+	if(sendDate.length < 2) {
+		sendDate = "0" + sendDate;
+	}
+	
+	let processDate = sendYear + "-" + sendMonth + "-" + sendDate;
+	
+	drawTable();
+	
+	tableSelected.eq(tableCount).text(processDate);
+	tableSelected.eq(tableCount + 1).text(sendDay + "요일");	
+
+	switch (sendMonth + sendDate) {
+		case '0301':
+			tableSelected.eq(tableCount + 2).text("3·1절");	
+			break;
+		case '0717':
+			tableSelected.eq(tableCount + 2).text("제헌절");	
+			break;
+		case '0815':
+			tableSelected.eq(tableCount + 2).text("광복절");	
+			break;
+		case '1003':
+			tableSelected.eq(tableCount + 2).text("개천절");	
+			break;
+		case '1009':
+			tableSelected.eq(tableCount + 2).text("한글날");	
+			break;
+		default:
+			tableSelected.eq(tableCount + 2).text("아니오");	
+			break;
+	}
+	
+	if(sendDay == "토") {
+		tableSelected.eq(tableCount).css("color", "DodgerBlue");
+		tableSelected.eq(tableCount + 1).css("color", "DodgerBlue");
+		tableSelected.eq(tableCount + 2).css("color", "DodgerBlue");
+	}
+	else if(sendDay == "일") {
+		tableSelected.eq(tableCount).css("color", "Crimson");
+		tableSelected.eq(tableCount + 1).css("color", "Crimson");
+		tableSelected.eq(tableCount + 2).css("color", "Crimson");
+	}
+		
+	tableCount += 3;
+	
+	
+}

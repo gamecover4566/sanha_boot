@@ -55,7 +55,7 @@
 		<span id="selectedmonth"></span><span> 월</span>
 		<span id="selecteddate"></span><span> 일</span>
 		<span id="selectedday"></span><span>요일</span><br>
-		<input type="button" class="btn" value="적용" onclick="send()" style="margin-top: 30px">
+		<input type="button" class="btn" value="적용" onclick="sendDate()" style="margin-top: 30px">
 	</div>
 </div>
 <div class="right">
