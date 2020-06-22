@@ -15,7 +15,7 @@
 }
 
 .txtbox {
-	width: 30%;
+	width: 80px;
 }
 
 .btn {
@@ -50,7 +50,6 @@
 }
 
 
-
 .table th {
 	width: 9%;
 	border-style: solid;
@@ -68,6 +67,8 @@
 
 .table .table-date {
 	height: 50px;
+	padding-top: 15px;
+	margin-bottom: -12px;
 }
 
 .table2 {
@@ -92,6 +93,8 @@
 
 .table2 .table-selected {
 	height: 30px;
+	padding-top: 4px;
+	margin-bottom: -4px;
 }
 
 .selectdate {
