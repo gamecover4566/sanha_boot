@@ -41,6 +41,7 @@ $(document).ready(function() {
 				$("#selecteddate").text(emptyCheck);
 				
 				removeSelected();
+				
 				$(event.target).css("background-color", "Turquoise");
 				$("#selectedday").text(date);
 			}

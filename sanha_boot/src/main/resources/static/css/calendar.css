@@ -46,7 +46,10 @@
 	border-style: solid;
 	border-width: 1px;
 	vertical-align: middle;
+	background-color : white !important;
 }
+
+
 
 .table th {
 	width: 9%;
