@@ -85,6 +85,7 @@ const drawCalendar = () => {
 		}
 		calendarHTML += "</tr>";
 	}
+	
 	$("#table-date").html(calendarHTML);
 }
 
@@ -220,7 +221,6 @@ const refreshDate = () => {
 
 const abbreviation = (value) => {
 	let result = "";
-	
 	let lookup = {
 			1 : "Jan",
 			2 : "Feb",
@@ -237,7 +237,6 @@ const abbreviation = (value) => {
 	}
 	
 	result = lookup[value];
-	
 	$("#displayMonth").text(result);
 }
 
@@ -327,12 +326,14 @@ const prev = () => {
 			dating.month = 12;
 			dating.year--;
 		}
+		
 		refreshDate();
 	}
 	else {
 		if($("#displayYear").text() === "") {
 			return false;
 		}
+		
 		if(month1 === dating.month) {
 			alert("가장 첫 달입니다.");
 		}
@@ -356,11 +357,13 @@ const next = () => {
 		if($("#displayYear").text() === "") {
 			return false;
 		}
+		
 		dating.month++;
 		if (dating.month > 12) {
 			dating.month = 1;
 			dating.year++;
 		}
+		
 		refreshDate();
 	}
 	else if(dating.year === year2) {
@@ -373,14 +376,14 @@ const next = () => {
 				dating.month = 1;
 				dating.year++;
 			}
+			
 			refreshDate();
 		}
 	}
 }
 
 const holiday = (value) => {
-	let result = "";
-	
+	let result = "";	
 	let lookup = {
 		"0301" : "3·1절",
 		"0717" : "제헌절",
@@ -389,13 +392,11 @@ const holiday = (value) => {
 		"1009" : "한글날"
 	}
 	
-	result = lookup[value];
-	
+	result = lookup[value];	
 	$("td div.table-selected").eq(tableData.tableCount + 2).text(result);
 }
 
 const sendDate = () => {
-	console.log($("#selectedyear").text());
 	if($("#selectedyear").text() === "") {
 		alert("선택된 일자가 없습니다.");
 		
@@ -418,7 +419,6 @@ const sendDate = () => {
 	}
 	
 	let processDate = sendYear + "-" + sendMonth + "-" + sendDate;
-	
 	
 	tableSelected.eq(tableData.tableCount).text(processDate);
 	tableSelected.eq(tableData.tableCount + 1).text(sendDay + "요일");	
