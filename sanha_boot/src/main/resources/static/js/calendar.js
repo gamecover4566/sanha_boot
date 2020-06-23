@@ -114,7 +114,6 @@ const validateDate1 = () => {
 	let day1 = String(value1.value).substring(8, 10);
 	let processValue1 = year1 + month1 + day1;
 	
-	console.log(processValue1.length);
 	if(processValue1.length < 8) {
 		alert("YYYYMMDD 형식으로 입력해주세요.");
 		$("#txtStartDate").val("");
@@ -153,7 +152,6 @@ const validateDate2 = () => {
 		$("#txtEndDate").val("");
 		
 		return false;
-		
 	}
 	else if(day2 < 1 || day2 > 31) {
 		alert("일의 범위는 1 ~ 31입니다.")
@@ -166,12 +164,12 @@ const validateDate2 = () => {
 const inquiry = () => {
 	let value1 = document.getElementById("txtStartDate");
 	let value2 = document.getElementById("txtEndDate");
-	let year1 = Number(String(value1.value).substring(0, 4));
-	let month1 = Number(String(value1.value).substring(5, 7));
-	let day1 = Number(String(value1.value).substring(8, 10));
-	let year2 = Number(String(value2.value).substring(0, 4));
-	let month2 = Number(String(value2.value).substring(5, 7));
-	let day2 = Number(String(value2.value).substring(8, 10));
+	let year1 = String(value1.value).substring(0, 4);
+	let month1 = String(value1.value).substring(5, 7);
+	let day1 = String(value1.value).substring(8, 10);
+	let year2 = String(value2.value).substring(0, 4);
+	let month2 = String(value2.value).substring(5, 7);
+	let day2 = String(value2.value).substring(8, 10);
 	let processValue1 = year1 + month1 + day1;
 	let processValue2 = year2 + month2 + day2;
 		
@@ -198,6 +196,7 @@ const inquiry = () => {
 	if(validateDate2() === false) {
 		return false;
 	}
+	
 	if(processValue2 < processValue1) {
 		alert("종료일은 시작일보다 작을 수 없습니다.");
 		$("#txtEndDate").val("");
@@ -219,9 +218,33 @@ const refreshDate = () => {
 	drawDate();
 }
 
+const abbreviation = (value) => {
+	let result = "";
+	
+	let lookup = {
+			1 : "Jan",
+			2 : "Feb",
+			3 : "Mar",
+			4 : "Apr",
+			5 : "May",
+			6 : "Jun",
+			7 : "Jul",
+			8 : "Aug",
+			9 : "Sep",
+			10 : "Oct",
+			11 : "Nov",
+			12 : "Dec"
+	}
+	
+	result = lookup[value];
+	
+	$("#displayMonth").text(result);
+}
+
 const drawDate = () => {	
 	let value1 = document.getElementById("txtStartDate");
 	let value2 = document.getElementById("txtEndDate");
+	let year1 = Number(String(value1.value).substring(0, 4));
 	let month1 = Number(String(value1.value).substring(5, 7));
 	let day1 = Number(String(value1.value).substring(8, 10));
 	let year2 = Number(String(value2.value).substring(0, 4));
@@ -231,46 +254,7 @@ const drawDate = () => {
 	
 	$("#displayYear").text(dating.year);
 	
-	switch (dating.month) {
-	case 1:
-		$("#displayMonth").text("Jan");		
-		break;
-	case 2:
-		$("#displayMonth").text("Feb");		
-		break;
-	case 3:
-		$("#displayMonth").text("Mar");		
-		break;
-	case 4:
-		$("#displayMonth").text("Apr");		
-		break;
-	case 5:
-		$("#displayMonth").text("May");		
-		break;
-	case 6:
-		$("#displayMonth").text("Jun");		
-		break;
-	case 7:
-		$("#displayMonth").text("Jul");		
-		break;
-	case 8:
-		$("#displayMonth").text("Aug");		
-		break;
-	case 9:
-		$("#displayMonth").text("Sep");		
-		break;
-	case 10:
-		$("#displayMonth").text("Oct");		
-		break;
-	case 11:
-		$("#displayMonth").text("Nov");		
-		break;
-	case 12:
-		$("#displayMonth").text("Dec");		
-		break;
-	default:
-		break;
-	}
+	abbreviation(dating.month);
 	
 	for(let i = 0; i < 42; i++) {
 		tableData.tableDate.eq(i).text("");
@@ -279,42 +263,55 @@ const drawDate = () => {
 	for (let i = monthDating.firstDay.getDay(); i < monthDating.firstDay.getDay() + monthDating.lastDay.getDate(); i++) {
 		let checkDay = ++count;
 		
-		if(dating.year === year2) {
-			if((dating.month === month1) && (dating.month < month2)) {
-				if(checkDay < day1) {
+		if(dating.year === year1 && dating.year === year2) {
+			if(dating.month === month1 && dating.month === month2) {
+				if(checkDay < day1) {			
 				}
-				else {
-					tableData.tableDate.eq(i).text(checkDay);	
-				}
-			}
-			else if((dating.month === month1) && (dating.month === month2)) {
-				if(checkDay < day1) {
-				}
-				else if(checkDay <= day2){
+				else if(checkDay <= day2) {
 					tableData.tableDate.eq(i).text(checkDay);
 				}
 			}
-			else if(dating.month < month2) {
-				tableData.tableDate.eq(i).text(checkDay);	
-			}
-			else if(dating.month === month2) {
-				if(checkDay <= day2){
-					tableData.tableDate.eq(i).text(checkDay);	
-				}
-			}
-			
-		}
-		else if(dating.year < year2) {
-			if(dating.month === month1) {
+			else if(dating.month === month1 && dating.month < month2) {
 				if(checkDay < day1) {			
 				}
 				else {
 					tableData.tableDate.eq(i).text(checkDay);
 				}
+				
 			}
-			else if(dating.month > month1 || dating.month < month1) {
+			else if(dating.month > month1 && dating.month < month2) {
 				tableData.tableDate.eq(i).text(checkDay);
 			}
+			else if(dating.month === month2) {
+				if(checkDay <= day2) {
+					tableData.tableDate.eq(i).text(checkDay);
+				}
+			}
+		}
+		else if(dating.year === year1 && dating.year < year2) {
+			if(dating.month === month1) {
+				if(checkDay < day1) {
+				}
+				else {
+					tableData.tableDate.eq(i).text(checkDay);
+				}
+			}
+			else if(dating.month > month1) {
+				tableData.tableDate.eq(i).text(checkDay);
+			}
+		}
+		else if(dating.year > year1 && dating.year < year2) {
+			tableData.tableDate.eq(i).text(checkDay);
+		}
+		else if(dating.year === year2) {
+			if(dating.month < month2) {
+				tableData.tableDate.eq(i).text(checkDay);	
+			}
+			else if(dating.month === month2) {
+				if(checkDay <= day2) {
+					tableData.tableDate.eq(i).text(checkDay);	
+				}
+			}			
 		}
 	}	
 }
@@ -333,6 +330,9 @@ const prev = () => {
 		refreshDate();
 	}
 	else {
+		if($("#displayYear").text() === "") {
+			return false;
+		}
 		if(month1 === dating.month) {
 			alert("가장 첫 달입니다.");
 		}
@@ -353,6 +353,9 @@ const next = () => {
 	let month2 = Number(String(value2.value).substring(5, 7));
 
 	if(dating.year < year2) {
+		if($("#displayYear").text() === "") {
+			return false;
+		}
 		dating.month++;
 		if (dating.month > 12) {
 			dating.month = 1;
@@ -375,7 +378,30 @@ const next = () => {
 	}
 }
 
+const holiday = (value) => {
+	let result = "";
+	
+	let lookup = {
+		"0301" : "3·1절",
+		"0717" : "제헌절",
+		"0815" : "광복절",
+		"1003" : "개천절",
+		"1009" : "한글날"
+	}
+	
+	result = lookup[value];
+	
+	$("td div.table-selected").eq(tableData.tableCount + 2).text(result);
+}
+
 const sendDate = () => {
+	console.log($("#selectedyear").text());
+	if($("#selectedyear").text() === "") {
+		alert("선택된 일자가 없습니다.");
+		
+		return false;
+	}
+	
 	drawTable();
 	let sendYear = $('#selectedyear').text();
 	let sendMonth = $('#selectedmonth').text();
@@ -396,27 +422,9 @@ const sendDate = () => {
 	
 	tableSelected.eq(tableData.tableCount).text(processDate);
 	tableSelected.eq(tableData.tableCount + 1).text(sendDay + "요일");	
-
-	switch (sendMonth + sendDate) {
-		case '0301':
-			tableSelected.eq(tableData.tableCount + 2).text("3·1절");	
-			break;
-		case '0717':
-			tableSelected.eq(tableData.tableCount + 2).text("제헌절");	
-			break;
-		case '0815':
-			tableSelected.eq(tableData.tableCount + 2).text("광복절");	
-			break;
-		case '1003':
-			tableSelected.eq(tableData.tableCount + 2).text("개천절");	
-			break;
-		case '1009':
-			tableSelected.eq(tableData.tableCount + 2).text("한글날");	
-			break;
-		default:
-			tableSelected.eq(tableData.tableCount + 2).text("아니오");	
-			break;
-	}
+	tableSelected.eq(tableData.tableCount + 2).text("아니오");
+	
+	holiday(sendMonth + sendDate);
 	
 	if(sendDay === "토") {
 		tableSelected.eq(tableData.tableCount).css("color", "DodgerBlue");

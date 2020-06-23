@@ -45,8 +45,8 @@
 	</div>
 	
 	<div align="center" style="margin-top: 20px">
-		<img src="/static/image/left_arrow.jpg" id="left_arrow" width="100" height="50" onclick="prev()">
-		<img src="/static/image/right_arrow.jpg" id="right_arrow" width="100" height="50" onclick="next()">	
+		<a href="javascript:prev()"><img src="/static/image/left_arrow.jpg" id="left_arrow" width="100" height="50"></a>
+		<a href="javascript:next()"><img src="/static/image/right_arrow.jpg" id="right_arrow" width="100" height="50"></a>
 	</div>
 	
 	<div class="selectdate" align="center" style="margin-top: 30px">
