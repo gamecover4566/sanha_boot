@@ -83,7 +83,7 @@
 }
 
 .table2 th {
-	width: 9%;
+	width: 6%;
 	border-style: solid;
 	border-width: 1px;
 	height: 30px;
@@ -99,4 +99,9 @@
 
 .selectdate {
 	font-size: 20px;
+}
+
+.subcalendar {
+	overflow: auto;
+	height: 500px;
 }

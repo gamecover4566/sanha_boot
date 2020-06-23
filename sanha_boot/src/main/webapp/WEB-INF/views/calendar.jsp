@@ -16,8 +16,8 @@
 <div class="left">
 	<div class="datearea" align="center">	
 		<span class="dot">*</span> 기간 
-		<input type=text maxlength="8" class="txtBox" id="txtStartDate" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ~ 
-		<input type=text maxlength="8" class="txtBox" id="txtEndDate" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+		<input type=text maxlength="8" class="txtBox" id="txtStartDate" onkeyup="this.value=this.value.replace(/[^0-9]/g,'').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');"> ~ 
+		<input type=text maxlength="8" class="txtBox" id="txtEndDate" onkeyup="this.value=this.value.replace(/[^0-9]/g,'').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');">
 		<input type=button class="btn" id="btnInquiry" value="조회" onclick="inquiry()">
 	</div>
 	

@@ -1,13 +1,18 @@
-let today = null;
-let year = null;
-let month = null;
-let firstDay = null;
-let lastDay = null;
-let tableDate = null;
-let tableSelectd = null;
-let tableCount = 0;
+let dating = {
+	today : null,
+	year : null,
+	month : null
+}
+let monthDating = {
+	firstDay : null,
+	lastDay : null
+}
+let tableData = {
+	tableDate : null,
+	tableCount : 0		
+}
 
-$(document).ready(function() {
+$(document).ready(() => {
 	drawCalendar();
 	$("#txtStartDate").datepicker({
 		showMonthAfterYear: true,
@@ -25,7 +30,7 @@ $(document).ready(function() {
 		dateFormat: "yy-mm-dd"
 	});
 	
-	$("#table1").click(function(event) {
+	$("#table1").click(event => {
 		let emptyCheck = $(event.target).text();
 		
 		if(emptyCheck !== "" && emptyCheck !== null) {
@@ -34,10 +39,10 @@ $(document).ready(function() {
 			}
 			else {
 				let week = ['일', '월', '화', '수', '목', '금', '토'];
-				let date = week[new Date(year + "/" + month + "/" + emptyCheck).getDay()];
+				let date = week[new Date(dating.year + "/" + dating.month + "/" + emptyCheck).getDay()];
 
-				$("#selectedyear").text(year);
-				$("#selectedmonth").text(month);
+				$("#selectedyear").text(dating.year);
+				$("#selectedmonth").text(dating.month);
 				$("#selecteddate").text(emptyCheck);
 				
 				removeSelected();
@@ -48,16 +53,27 @@ $(document).ready(function() {
 		}
 	});
 	
-	drawTable();
+	$("#txtStartDate").keydown((key) => {
+		if(key.keyCode === 13) {
+			validateDate1();
+		}
+	});
+	
+	$("#txtEndDate").keydown((key) => {
+		if(key.keyCode === 13) {
+			validateDate2();
+		}
+	});
 });
 
-function removeSelected() {
+
+const removeSelected = () => {
 	for(let i = 0; i < 42; i++) {
-		tableDate.eq(i).css("background-color", "White");;
+		tableData.tableDate.eq(i).css("background-color", "White");;
 	}
 }
 
-function drawCalendar() {
+const drawCalendar = () => {
 	let calendarHTML = "";
 	
 	for(let i = 0; i < 6; i ++) {
@@ -72,7 +88,7 @@ function drawCalendar() {
 	$("#table-date").html(calendarHTML);
 }
 
-function drawTable() {
+const drawTable = () => {
 	let tableHTML = "";
 
 	tableHTML += "<tr>";
@@ -86,76 +102,136 @@ function drawTable() {
 	$("#table-selected").append(tableHTML);
 }
 
-function removeTable() {
+const removeTable = () => {
 	$("#table2 > tbody:last").empty();
-	drawTable();
-	tableCount = 0;
+	tableData.tableCount = 0;
 }
 
-function inquiry() {
+const validateDate1 = () => {
 	let value1 = document.getElementById("txtStartDate");
-	let value2 = document.getElementById("txtEndDate");
 	let year1 = String(value1.value).substring(0, 4);
 	let month1 = String(value1.value).substring(5, 7);
 	let day1 = String(value1.value).substring(8, 10);
+	let processValue1 = year1 + month1 + day1;
+	
+	console.log(processValue1.length);
+	if(processValue1.length < 8) {
+		alert("YYYYMMDD 형식으로 입력해주세요.");
+		$("#txtStartDate").val("");
+		
+		return false;
+	}
+	else if(month1 < 1 || month1 > 12) {
+		alert("월의 범위는 1 ~ 12입니다.")
+		$("#txtStartDate").val("");
+		
+		return false;
+	}
+	else if(day1 < 1 || day1 > 31) {
+		alert("일의 범위는 1 ~ 31입니다.")
+		$("#txtStartDate").val("");
+		
+		return false;
+	}
+}
+
+const validateDate2 = () => {	
+	let value2 = document.getElementById("txtEndDate");
 	let year2 = String(value2.value).substring(0, 4);
 	let month2 = String(value2.value).substring(5, 7);
 	let day2 = String(value2.value).substring(8, 10);
+	let processValue2 = year2 + month2 + day2;
 	
-	today = new Date(year1 + "/" + month1 + "/" + day1);
-	year = today.getFullYear();
-	month = today.getMonth() + 1;
+	if(processValue2.length < 8) {
+		alert("YYYYMMDD 형식으로 입력해주세요.");
+		$("#txtEndDate").val("");
+		
+		return false;
+	}
+	else if(month2 < 1 || month2 > 12) {
+		alert("월의 범위는 1 ~ 12입니다.")
+		$("#txtEndDate").val("");
+		
+		return false;
+		
+	}
+	else if(day2 < 1 || day2 > 31) {
+		alert("일의 범위는 1 ~ 31입니다.")
+		$("#txtEndDate").val("");
+		
+		return false;
+	}	
+}
+
+const inquiry = () => {
+	let value1 = document.getElementById("txtStartDate");
+	let value2 = document.getElementById("txtEndDate");
+	let year1 = Number(String(value1.value).substring(0, 4));
+	let month1 = Number(String(value1.value).substring(5, 7));
+	let day1 = Number(String(value1.value).substring(8, 10));
+	let year2 = Number(String(value2.value).substring(0, 4));
+	let month2 = Number(String(value2.value).substring(5, 7));
+	let day2 = Number(String(value2.value).substring(8, 10));
+	let processValue1 = year1 + month1 + day1;
+	let processValue2 = year2 + month2 + day2;
+		
+	dating.today = new Date(value1.value);
+	dating.year = dating.today.getFullYear();
+	dating.month = dating.today.getMonth() + 1;
 	
-	if(value1.value === "" || value1.value === null) {
+	if(processValue1 === 0) {
 		alert("시작일을 입력해주세요.")
 		value1.focus();
+		
+		return false;
 	}
-	else if(value2.value === "" || value2.value === null) {
+	else if(processValue2 === 0) {
 		alert("종료일을 입력해주세요.")
 		value2.focus();
+		
+		return false;
 	}
-	else if(value1.value.length < 8 || value2.value.length < 8) {
-		alert("YYYYMMDD 형식으로 입력해주세요.");
+	
+	if(validateDate1() === false) {
+		return false;
+	}	
+	if(validateDate2() === false) {
+		return false;
 	}
-	else if((month1 < 1 || month1 > 12) ||
-			(month2 < 1 || month2 > 12)) {
-		alert("월의 범위는 1 ~ 12입니다.")
-	}
-	else if((day1 < 1 || day1 > 31) ||
-			(day2 < 1 || day2 > 31)) {
-		alert("일의 범위는 1 ~ 31입니다.")
-	}
-	else if((value2.value - value1.value) < 0) {
+	if(processValue2 < processValue1) {
 		alert("종료일은 시작일보다 작을 수 없습니다.");
+		$("#txtEndDate").val("");
 		value2.focus();
+		
+		return false;
 	}
 	
 	refreshDate();
 	removeTable();
 }
 
-function refreshDate() {
-	firstDay = new Date(year, month - 1, 1);
-	lastDay = new Date(year, month, 0);
-	tableDate = $("td div.table-date");
+const refreshDate = () => {
+	monthDating.firstDay = new Date(dating.year, dating.month - 1, 1);
+	monthDating.lastDay = new Date(dating.year, dating.month, 0);
+	tableData.tableDate = $("td div.table-date");
 	
 	removeSelected();
 	drawDate();
 }
 
-function drawDate() {	
+const drawDate = () => {	
 	let value1 = document.getElementById("txtStartDate");
 	let value2 = document.getElementById("txtEndDate");
-	let month1 = String(value1.value).substring(4, 6);
-	let day1 = String(value1.value).substring(6, 8);
-	let year2 = String(value2.value).substring(0, 4);
-	let month2 = String(value2.value).substring(4, 6);
-	let day2 = String(value2.value).substring(6, 8);
+	let month1 = Number(String(value1.value).substring(5, 7));
+	let day1 = Number(String(value1.value).substring(8, 10));
+	let year2 = Number(String(value2.value).substring(0, 4));
+	let month2 = Number(String(value2.value).substring(5, 7));
+	let day2 = Number(String(value2.value).substring(8, 10));
 	let count = 0;
 	
-	$("#displayYear").text(year);
+	$("#displayYear").text(dating.year);
 	
-	switch (month) {
+	switch (dating.month) {
 	case 1:
 		$("#displayMonth").text("Jan");		
 		break;
@@ -197,111 +273,110 @@ function drawDate() {
 	}
 	
 	for(let i = 0; i < 42; i++) {
-		tableDate.eq(i).text("");
+		tableData.tableDate.eq(i).text("");
 	}
 	
-	for (let i = firstDay.getDay(); i < firstDay.getDay() + lastDay.getDate(); i++) {
+	for (let i = monthDating.firstDay.getDay(); i < monthDating.firstDay.getDay() + monthDating.lastDay.getDate(); i++) {
 		let checkDay = ++count;
 		
-		if(year === year2) {
-			if((month === month1) && (month < month2)) {
+		if(dating.year === year2) {
+			if((dating.month === month1) && (dating.month < month2)) {
 				if(checkDay < day1) {
 				}
 				else {
-					tableDate.eq(i).text(checkDay);	
+					tableData.tableDate.eq(i).text(checkDay);	
 				}
 			}
-			else if((month === month1) && (month === month2)) {
+			else if((dating.month === month1) && (dating.month === month2)) {
 				if(checkDay < day1) {
 				}
 				else if(checkDay <= day2){
-					tableDate.eq(i).text(checkDay);
+					tableData.tableDate.eq(i).text(checkDay);
 				}
 			}
-			else if(month < month2) {
-				tableDate.eq(i).text(checkDay);	
+			else if(dating.month < month2) {
+				tableData.tableDate.eq(i).text(checkDay);	
 			}
-			else if(month === month2) {
+			else if(dating.month === month2) {
 				if(checkDay <= day2){
-					tableDate.eq(i).text(checkDay);	
+					tableData.tableDate.eq(i).text(checkDay);	
 				}
 			}
 			
 		}
-		else if(year < year2) {
-			if(month === month1) {
+		else if(dating.year < year2) {
+			if(dating.month === month1) {
 				if(checkDay < day1) {			
 				}
 				else {
-					tableDate.eq(i).text(checkDay);
+					tableData.tableDate.eq(i).text(checkDay);
 				}
 			}
-			else if(month > month1 || month < month1) {
-				tableDate.eq(i).text(checkDay);
+			else if(dating.month > month1 || dating.month < month1) {
+				tableData.tableDate.eq(i).text(checkDay);
 			}
 		}
-	}
-	
+	}	
 }
 
-function prev() {
+const prev = () => {
 	let value1 = document.getElementById("txtStartDate");
-	let year1 = String(value1.value).substring(0, 4);
-	let month1 = String(value1.value).substring(4, 6);
+	let year1 = Number(String(value1.value).substring(0, 4));
+	let month1 = Number(String(value1.value).substring(5, 7));
 	
-	if(year > year1) {
-		month--;
-		if (month <= 0) {
-			month = 12;
-			year--;
+	if(dating.year > year1) {
+		dating.month--;
+		if (dating.month <= 0) {
+			dating.month = 12;
+			dating.year--;
 		}
 		refreshDate();
 	}
 	else {
-		if(month1 === month) {
+		if(month1 === dating.month) {
 			alert("가장 첫 달입니다.");
 		}
 		else {
-			month--;
-			if (month <= 0) {
-				month = 12;
-				year--;
+			dating.month--;
+			if (dating.month <= 0) {
+				dating.month = 12;
+				dating.year--;
 			}
 			refreshDate();
 		}
-	}
-	
+	}	
 }
 
-function next() {
+const next = () => {
 	let value2 = document.getElementById("txtEndDate");
-	let year2 = String(value2.value).substring(0, 4);
-	let month2 = String(value2.value).substring(4, 6);
+	let year2 = Number(String(value2.value).substring(0, 4));
+	let month2 = Number(String(value2.value).substring(5, 7));
 
-	if(year < year2) {
-		month++;
-		if (month > 12) {
-			month = 1;
-			year++;
+	if(dating.year < year2) {
+		dating.month++;
+		if (dating.month > 12) {
+			dating.month = 1;
+			dating.year++;
 		}
 		refreshDate();
 	}
-	else if(year === year2) {
-		if(month2 === month) {
+	else if(dating.year === year2) {
+		if(month2 === dating.month) {
 			alert("가장 마지막 달입니다.");
 		}
 		else {
-			month++;
-			if (month > 12) {
-				month = 1;
-				year++;
+			dating.month++;
+			if (dating.month > 12) {
+				dating.month = 1;
+				dating.year++;
 			}
 			refreshDate();
 		}
 	}
 }
 
-function sendDate() {
+const sendDate = () => {
+	drawTable();
 	let sendYear = $('#selectedyear').text();
 	let sendMonth = $('#selectedmonth').text();
 	let sendDate = $('#selecteddate').text();
@@ -318,44 +393,41 @@ function sendDate() {
 	
 	let processDate = sendYear + "-" + sendMonth + "-" + sendDate;
 	
-	drawTable();
 	
-	tableSelected.eq(tableCount).text(processDate);
-	tableSelected.eq(tableCount + 1).text(sendDay + "요일");	
+	tableSelected.eq(tableData.tableCount).text(processDate);
+	tableSelected.eq(tableData.tableCount + 1).text(sendDay + "요일");	
 
 	switch (sendMonth + sendDate) {
 		case '0301':
-			tableSelected.eq(tableCount + 2).text("3·1절");	
+			tableSelected.eq(tableData.tableCount + 2).text("3·1절");	
 			break;
 		case '0717':
-			tableSelected.eq(tableCount + 2).text("제헌절");	
+			tableSelected.eq(tableData.tableCount + 2).text("제헌절");	
 			break;
 		case '0815':
-			tableSelected.eq(tableCount + 2).text("광복절");	
+			tableSelected.eq(tableData.tableCount + 2).text("광복절");	
 			break;
 		case '1003':
-			tableSelected.eq(tableCount + 2).text("개천절");	
+			tableSelected.eq(tableData.tableCount + 2).text("개천절");	
 			break;
 		case '1009':
-			tableSelected.eq(tableCount + 2).text("한글날");	
+			tableSelected.eq(tableData.tableCount + 2).text("한글날");	
 			break;
 		default:
-			tableSelected.eq(tableCount + 2).text("아니오");	
+			tableSelected.eq(tableData.tableCount + 2).text("아니오");	
 			break;
 	}
 	
 	if(sendDay === "토") {
-		tableSelected.eq(tableCount).css("color", "DodgerBlue");
-		tableSelected.eq(tableCount + 1).css("color", "DodgerBlue");
-		tableSelected.eq(tableCount + 2).css("color", "DodgerBlue");
+		tableSelected.eq(tableData.tableCount).css("color", "DodgerBlue");
+		tableSelected.eq(tableData.tableCount + 1).css("color", "DodgerBlue");
+		tableSelected.eq(tableData.tableCount + 2).css("color", "DodgerBlue");
 	}
 	else if(sendDay === "일") {
-		tableSelected.eq(tableCount).css("color", "Crimson");
-		tableSelected.eq(tableCount + 1).css("color", "Crimson");
-		tableSelected.eq(tableCount + 2).css("color", "Crimson");
+		tableSelected.eq(tableData.tableCount).css("color", "Crimson");
+		tableSelected.eq(tableData.tableCount + 1).css("color", "Crimson");
+		tableSelected.eq(tableData.tableCount + 2).css("color", "Crimson");
 	}
 		
-	tableCount += 3;
-	
-	
+	tableData.tableCount += 3;
 }
