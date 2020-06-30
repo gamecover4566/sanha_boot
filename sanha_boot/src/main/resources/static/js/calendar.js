@@ -14,6 +14,7 @@ let tableData = {
 
 $(document).ready(() => {
 	drawCalendar();
+	
 	$("#txtStartDate").datepicker({
 		showMonthAfterYear: true,
 		changeMonth: true,
@@ -55,17 +56,16 @@ $(document).ready(() => {
 	
 	$("#txtStartDate").keydown((key) => {
 		if(key.keyCode === 13) {
-			validateDate1();
+			validateDate(document.getElementById("txtStartDate").value, 1);
 		}
 	});
 	
 	$("#txtEndDate").keydown((key) => {
 		if(key.keyCode === 13) {
-			validateDate2();
+			validateDate(document.getElementById("txtEndDate").value, 2);
 		}
 	});
 });
-
 
 const removeSelected = () => {
 	for(let i = 0; i < 42; i++) {
@@ -108,58 +108,45 @@ const removeTable = () => {
 	tableData.tableCount = 0;
 }
 
-const validateDate1 = () => {
-	let value1 = document.getElementById("txtStartDate");
-	let year1 = String(value1.value).substring(0, 4);
-	let month1 = String(value1.value).substring(5, 7);
-	let day1 = String(value1.value).substring(8, 10);
-	let processValue1 = year1 + month1 + day1;
+const validateDate = (date, number) => {
+	let year = String(date).substring(0, 4);
+	let month = String(date).substring(5, 7);
+	let day = String(date).substring(8, 10);
+	let processValue = year + month + day;
 	
-	if(processValue1.length < 8) {
-		alert("YYYYMMDD 형식으로 입력해주세요.");
-		$("#txtStartDate").val("");
+	if(processValue.length < 8) {
+		alert("YYYYMMDD 형식으로 입력해주세요.");		
+		if(number === 1) {
+			$("#txtStartDate").val("");
+		}
+		else {
+			$("#txtEndDate").val("");			
+		}
 		
 		return false;
 	}
-	else if(month1 < 1 || month1 > 12) {
+	else if(month < 1 || month > 12) {
 		alert("월의 범위는 1 ~ 12입니다.")
-		$("#txtStartDate").val("");
+		if(number === 1) {
+			$("#txtStartDate").val("");
+		}
+		else {
+			$("#txtEndDate").val("");			
+		}
 		
 		return false;
 	}
-	else if(day1 < 1 || day1 > 31) {
+	else if(day < 1 || day > 31) {
 		alert("일의 범위는 1 ~ 31입니다.")
-		$("#txtStartDate").val("");
+		if(number === 1) {
+			$("#txtStartDate").val("");
+		}
+		else {
+			$("#txtEndDate").val("");			
+		}
 		
 		return false;
 	}
-}
-
-const validateDate2 = () => {	
-	let value2 = document.getElementById("txtEndDate");
-	let year2 = String(value2.value).substring(0, 4);
-	let month2 = String(value2.value).substring(5, 7);
-	let day2 = String(value2.value).substring(8, 10);
-	let processValue2 = year2 + month2 + day2;
-	
-	if(processValue2.length < 8) {
-		alert("YYYYMMDD 형식으로 입력해주세요.");
-		$("#txtEndDate").val("");
-		
-		return false;
-	}
-	else if(month2 < 1 || month2 > 12) {
-		alert("월의 범위는 1 ~ 12입니다.")
-		$("#txtEndDate").val("");
-		
-		return false;
-	}
-	else if(day2 < 1 || day2 > 31) {
-		alert("일의 범위는 1 ~ 31입니다.")
-		$("#txtEndDate").val("");
-		
-		return false;
-	}	
 }
 
 const inquiry = () => {
@@ -191,10 +178,8 @@ const inquiry = () => {
 		return false;
 	}
 	
-	if(validateDate1() === false) {
-		return false;
-	}	
-	if(validateDate2() === false) {
+	
+	if((validateDate(value1.value, 1) === false) || (validateDate(value2.value, 2) === false)) {
 		return false;
 	}
 	
@@ -251,8 +236,7 @@ const drawDate = () => {
 	let day2 = Number(String(value2.value).substring(8, 10));
 	let count = 0;
 	
-	$("#displayYear").text(dating.year);
-	
+	$("#displayYear").text(dating.year);	
 	abbreviation(dating.month);
 	
 	for(let i = 0; i < 42; i++) {
